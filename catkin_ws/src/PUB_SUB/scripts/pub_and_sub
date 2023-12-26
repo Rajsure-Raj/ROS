@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import rospy
+from std_msgs.msg import String
+
+def messagePublisher():
+    rospy.init_node('pubandsub')
+    pub = rospy.Publisher('messageTopic', String,queue_size =10)
+    rate = rospy.Rate(10) #10hz
+
+    def callback(data):
+        rospy.loginfo("I heard %s",data.data)
+        pub.publish(hello_str)
+ 
+
+    def listener():
+        rospy.init_node('pubandsub')
+        rospy.Subscriber("messageTopic", String, callback)
+        
+        while not rospy.is_shutdown():
+            hello_str =" Hello Sir" #% rospy.get_time()
+            rospy.loginfo('Published: ' + hello_str)
+            rate.sleep()
+        rospy.spin()
+
+
+if __name__ == '__main__':
+    messagePublisher()
+    
